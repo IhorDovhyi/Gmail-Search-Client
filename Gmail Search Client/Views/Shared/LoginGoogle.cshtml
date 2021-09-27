@@ -1,0 +1,13 @@
+﻿@page ""
+@using System.Security.Claims;
+@model Gmail_Search_Client.Views.Shared.LoginModel
+@{
+}
+
+<p>Welcome @User.FindFirst(ClaimTypes.Name)?.Value</p>
+
+<body>
+    <h2>You are logged in to gmail</h2>
+    <p>Hello @User.FindFirst(ClaimTypes.GivenName)?.Value! You have successfully logged in.</p>
+    <p><a class="btn btn-info btn-sm" asp-controller="Google" asp-action="index">Home</a></p>
+</body>

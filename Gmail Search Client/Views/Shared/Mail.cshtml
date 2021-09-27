@@ -1,0 +1,87 @@
+﻿@model Gmail_Search_Client.Models.AbstractMessagePage
+@{ ViewBag.Title = "Mail"; }
+
+<h1>@ViewBag.Title</h1>
+
+
+<body>
+    <form method="POST">
+        <input type="submit" class="btn btn-warning" asp-controller="Google" asp-action="All" value="All" />
+        <input type="submit" class="btn btn-warning" asp-controller="Google" asp-action="Starred" value="Starred" />
+        <input type="submit" class="btn btn-warning" asp-controller="Google" asp-action="NotRead" value="Not Read" />
+        <input type="submit" class="btn btn-warning" asp-controller="Google" asp-action="Archived" value="Archived" />
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Emails titles</th>
+                <th scope="col">From</th>
+                <th scope="col">Date (when received)</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Messages.Count > 0 && Model.Messages != null)
+            {
+                int row = 1;
+                @foreach (var message in Model.Messages)
+                {
+                    <tr>
+                        <td> scope="row">@row</td>
+                        <td>@message.EmailTitles</td>
+                        <td>@message.From</td>
+                        <td>@message.DateReceived</td>
+                        <td>
+                            <form asp-controller="Google" asp-action="FullMessage" asp-route-messageId="@message.MessageId"
+                            data-ajax="true" method="post"
+                            data-ajax-update="#results" data-ajax-success="onSuccess">
+                                <button type="submit" class="btn btn-success btn-fab btn-round" data-toggle="modal" data-target="#myModal">
+                                    <span class="material-icons">
+                                        pageview
+                                    </span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    row++;
+                }}
+        </tbody>
+    </table>
+    <div id="myModal" class="modal fade" role="dialog" aria-labelledby="exampleModalLongTitle">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-lg">
+                <div class="modal-body">
+                    <div id="results"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        @if (Model.ViewPages.Count > 1)
+        {
+            <form method="POST">
+                <button class="btn btn-warning btn-fab btn-round" asp-controller="Google" asp-action="Previous" asp-route-pageNumber="@Model.PageNumber" value="Previous">
+                    <span class="material-icons">
+                        arrow_circle_left
+                    </span>
+                </button>
+            @for (int pageNumb = 1; pageNumb < Model.ViewPages.Count; pageNumb++)
+            {
+                @if (Model.PageNumber == pageNumb)
+                    {<a role="button" asp-action="GetPageByNumber" asp-controller="Google" asp-route-pageNumber="@pageNumb" class="btn btn-warning btn-round">@pageNumb</a> }
+                else
+                    {<a role="button" asp-action="GetPageByNumber" asp-controller="Google" asp-route-pageNumber="@pageNumb" class="btn btn-default btn-round">@pageNumb</a>}}
+                <button type="submit" class="btn btn-warning btn-fab btn-round" asp-controller="Google" asp-action="Next" asp-route-pageNumber="@Model.PageNumber" value="Next">
+                    <span class="material-icons">
+                        arrow_circle_right
+                    </span>
+                </button>
+            </form>}
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+</body>

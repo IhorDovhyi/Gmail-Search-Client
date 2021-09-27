@@ -1,0 +1,71 @@
+﻿@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <div class="text-left">
+        <h1 class="display-5">Welcome @User.FindFirst(ClaimTypes.GivenName)?.Value</h1>
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+        {
+        
+        }
+    else
+    {
+        <div class="text-left">
+           <form method="post">
+               <p>You are not currently logged in.</p>
+               <a class="btn btn-default btn-link" asp-controller="Google" asp-action="LoginGoogle">
+                  <img src="~/lib/MaterialKit/assets/img/google.png" />
+               </a>
+           </form>
+        </div>
+    }
+        <p class="text-left font-weight-bold">Need to build an app that will:</p>
+            <ul class="list-group list-group-flush text-left">
+                <li class="list-group-item">
+                    <p class="text-left font-weight-bold">allow the user log in using his/her Google Account and connect to Gmail account + grant access to Gmail account</p>
+                </li>
+                <li class="list-group-item">
+                    <p class="text-left font-weight-bold">once authenticated, will allow the user to check email in the GMail mailbox</p>
+                    <ul class="list-group list-group-flush text-left">
+                        <li class="list-group-item">by default first 10 emails should be uploaded. Clicking on "next page" of the grid (see below), should load more emails.</li>
+                        <li class="list-group-item">add an option to filter emails by "starred", "not read", ''archived"</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">
+                    <p class="text-left font-weight-bold">results should shown in the data grid that has the following columns:</p>
+                    <ul class="list-group list-group-flush text-left">
+                        <li class="list-group-item">emails titles</li>
+                        <li class="list-group-item">from</li>
+                        <li class="list-group-item">Date (when received)</li>
+                        <li class="list-group-item">"View" button. should trigger a popup with email content show in html editor (example: CK Editor).</li>
+                        <li class="list-group-item">label (starred, not read, archived) </li>
+                    </ul>
+                </li>
+                <li class="list-group-item">
+                    <p class="text-left font-weight-bold">Additional Requirements:</p>
+                    <ul class="list-group list-group-flush text-left">
+                        <li class="list-group-item">Make sure data is shown in the data grid.</li>
+                        <li class="list-group-item">Make sure the grid has a pagination</li>
+                        <li class="list-group-item">Use a theme template for styling.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p class="text-left font-weight-bold">You can take one of the Links:</p>
+
+            <ul class="list-group list-group-flush text-left">
+                <li class="list-group-item">
+                    <a href="https://developers.google.com/identity/protocols/OAuth2">Authentication API</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="https://developers.google.com/gmail/api">Gmail API</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="https://www.creative-tim.com/bootstrap-themes/admin-dashboard">Bootstrap</a>
+                </li>
+            </ul>
+</div>
